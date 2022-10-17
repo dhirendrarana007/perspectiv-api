@@ -24,11 +24,16 @@ module.exports = {
         }
     },
     'getassociatedjob_data_by_id' : async(req, res) => {
-        
+        data={
+            "status": 404,
+            "errors": [
+                'Id not found'
+            ]
+        }
         var id = req.params.id;
-        console.log('id',id);
         var data = await associatejobdatas.findOne({id : id})
         console.log("data: ",JSON.parse(JSON.stringify(data)))
         res.json(data)
+
     }
 }
