@@ -8,8 +8,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/associatejob",associatejob_router);
-
+const port = process.env.PORT || 3000
 var url = process.env.MONGOOSE_URL
 mongoose.connect(url).then(res=>{
-    app.listen(3000, () => console.log('Server started'));
+    app.listen(port, () => console.log('Server started'));
 }).catch((e) => {console.log("Unable to connect with DB.")})
