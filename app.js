@@ -6,8 +6,7 @@ require('dotenv').config()
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-app.use("/associatejob",associatejob_router);
+app.use("/",associatejob_router);
 const port = process.env.PORT || 80
 var url = process.env.MONGOOSE_URL
 mongoose.connect(url).then(res=>{
