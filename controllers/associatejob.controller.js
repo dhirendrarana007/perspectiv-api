@@ -3,7 +3,7 @@ const associatejobdatas = require('../models/associatejobdatas');
 
 module.exports = {
     'getassociatedjob_data' : async(req, res) => {
-        const { page = 1, limit = 5 } = req.query;
+        const { page = 1, limit = 15 } = req.query;
         try {
             const data = await associatejobdatas.find()
             .limit(limit * 1)
@@ -31,7 +31,6 @@ module.exports = {
             const data = await associatejobdatas.findById(mongoose.Types.ObjectId(id));
             return res.json(data)
         } catch (error) {
-            console.log(error);
             data={
                 "status": 404,
                 "errors": [
