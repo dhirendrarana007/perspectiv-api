@@ -1,21 +1,80 @@
 const mongoose = require("mongoose");
-const associatejobdatas = require('../models/associatejobdatas');
+const ObjectId = mongoose.Types.ObjectId;
+const associatejobdatas = require('../models/associatejobdata.model');
 
 module.exports = {
     'getassociatedjob_data' : async(req, res) => {
-        const { page = 1, limit = 15 } = req.query;
         try {
-            const data = await associatejobdatas.find()
-            .limit(limit * 1)
-            .skip((page - 1) * limit)
-            .exec();
-            const count = await associatejobdatas.count();
-            return res.json({
-                data,
-                totalPages: Math.ceil(count / limit),
-                currentPage: page
-            });
+            associatejobdatas.aggregate( [
+                {
+                    $lookup: {
+                        from: "locationdatas",
+                        localField: "locationId",
+                        foreignField: "_id",
+                        as: "locationId",
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "jobroleanswers",
+                        localField: "jobTitleId",
+                        foreignField: "_id",
+                        as: "jobTitleId",
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "jobposters",
+                        localField: "industryId",
+                        foreignField: "_id",
+                        as: "industryId",
+                    }
+                },
+                    {
+                        $project: {
+                            _id: 1,
+                            userId: 1,
+                            roleId: 1,
+                            roleId:1,
+                            jobTitleId:1,
+                            industryId: 1,
+                            educationLevelId: 1,
+                            skillLevelId: 1,
+                            locationId: 1,
+                            campanySize:1,
+                            employmentType: 1,
+                            employmentMode: 1,
+                            hardSkill: 1,
+                            softSkill: 1,
+                            selfAssessmentData: 1,
+                            selfAssessmentResult: 1,
+                            feelsuits1: 1,
+                            feelsuits2: 1,
+                            feelsuits3: 1,
+                            feelsuits4: 1,
+                            startDate: 1,
+                            image: 1,
+                            destination: 1,
+                            companyDesc: 1,
+                            jobDesc: 1,
+                            createdAt: 1,
+                            updatedAt: 1
+                        }
+                    }
+                
+            ]).exec((err, result)=>{
+                    if(err){
+                        res.send({error:err});
+                    }
+                    if(result){
+                        res.send({
+                            error: false,
+                            data: result
+                        })
+                    }
+                })
         } catch (err) {
+            console.log(err);
             data={
                 "status": 404,
                 "errors": [
@@ -26,11 +85,81 @@ module.exports = {
         }
     },
     'getassociatedjob_data_by_id' : async(req, res) => {
-        var id = req.params.id;
+        const id = req.params.id;
         try {
-            const data = await associatejobdatas.findById(mongoose.Types.ObjectId(id));
-            return res.json(data)
+            associatejobdatas.aggregate( [
+                {
+                    $lookup: {
+                        from: "locationdatas",
+                        localField: "locationId",
+                        foreignField: "_id",
+                        as: "locationId",
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "jobroleanswers",
+                        localField: "jobTitleId",
+                        foreignField: "_id",
+                        as: "jobTitleId",
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "jobposters",
+                        localField: "industryId",
+                        foreignField: "_id",
+                        as: "industryId",
+                    }
+                },
+                    {
+                        $project: {
+                            _id: 1,
+                            userId: 1,
+                            roleId: 1,
+                            roleId:1,
+                            jobTitleId:1,
+                            industryId: 1,
+                            educationLevelId: 1,
+                            skillLevelId: 1,
+                            locationId: 1,
+                            campanySize:1,
+                            employmentType: 1,
+                            employmentMode: 1,
+                            hardSkill: 1,
+                            softSkill: 1,
+                            selfAssessmentData: 1,
+                            selfAssessmentResult: 1,
+                            feelsuits1: 1,
+                            feelsuits2: 1,
+                            feelsuits3: 1,
+                            feelsuits4: 1,
+                            startDate: 1,
+                            image: 1,
+                            destination: 1,
+                            companyDesc: 1,
+                            jobDesc: 1,
+                            createdAt: 1,
+                            updatedAt: 1
+                        }
+                    },
+                    {
+                        $match : { _id : ObjectId(id)} 
+                    },
+                
+            ]).exec((err, result)=>{
+                    if(err){
+                        res.send({error:err});
+                    }
+                    if(result){
+                        res.send({
+                            error: false,
+                            data: result
+                        })
+                    }
+                })
         } catch (error) {
+            console.log(error)
             data={
                 "status": 404,
                 "errors": [

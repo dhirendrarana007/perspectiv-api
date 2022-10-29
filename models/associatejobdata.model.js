@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const associatejobdatasSchema = new mongoose.Schema({
-    _id : mongoose.Schema.Types.Object,
+    _id : mongoose.Schema.Types.ObjectId,
     roleId : String,
-    usertype : mongoose.Schema.Types.Object,
-    industryId : mongoose.Schema.Types.Object,
-    educationLevelId : mongoose.Schema.Types.Object,
-    skillLevelId : mongoose.Schema.Types.Object,
-    locationId : mongoose.Schema.Types.Object,
+    usertype : mongoose.Schema.Types.ObjectId,
+    industryId : mongoose.Schema.Types.ObjectId,
+    educationLevelId : mongoose.Schema.Types.ObjectId,
+    skillLevelId : mongoose.Schema.Types.ObjectId,
+    locationId :  mongoose.Schema.Types.ObjectId,
     campanySize : String,
     employmentType : String,
     employmentMode : String,
@@ -23,7 +23,7 @@ const associatejobdatasSchema = new mongoose.Schema({
     destination : String,
     companyDesc : String,
     jobDesc : String,
-
+   
 });
 
 module.exports = mongoose.model("associatejobdatas", associatejobdatasSchema);;
