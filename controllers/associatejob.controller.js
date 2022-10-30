@@ -8,6 +8,14 @@ module.exports = {
             associatejobdatas.aggregate( [
                 {
                     $lookup: {
+                        from: "jobposters",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "userId",
+                    }
+                },
+                {
+                    $lookup: {
                         from: "locationdatas",
                         localField: "locationId",
                         foreignField: "_id",
@@ -88,6 +96,14 @@ module.exports = {
         const id = req.params.id;
         try {
             associatejobdatas.aggregate( [
+                {
+                    $lookup: {
+                        from: "jobposters",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "userId",
+                    }
+                },
                 {
                     $lookup: {
                         from: "locationdatas",
