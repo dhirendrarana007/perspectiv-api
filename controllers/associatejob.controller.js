@@ -1,17 +1,27 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 const associatejobdatas = require('../models/associatejobdata.model');
+const paymentplans = require('../models/paymentplan.model');
 
 module.exports = {
     'getassociatedjob_data' : async(req, res) => {
         try {
             associatejobdatas.aggregate( [
                 {
-                    $lookup: {
+                    $lookup:{
                         from: "jobposters",
-                        localField: "userId",
-                        foreignField: "_id",
-                        as: "userId",
+                        let : {userId:'$userId'},
+                        pipeline: [{$match: {$expr: {$eq: ["$_id","$$userId"]}}},
+                        
+                        {$lookup: {
+                            from: "paymentplans",
+                            let : {planId: '$planId'},
+                            
+                            pipeline:[{$match: {$expr: {$eq: ["$_id", "$$planId"]}}}],
+                            as: "planId"
+                        }}
+                    ],
+                        as :"userId"
                     }
                 },
                 {
@@ -97,11 +107,20 @@ module.exports = {
         try {
             associatejobdatas.aggregate( [
                 {
-                    $lookup: {
+                    $lookup:{
                         from: "jobposters",
-                        localField: "userId",
-                        foreignField: "_id",
-                        as: "userId",
+                        let : {userId:'$userId'},
+                        pipeline: [{$match: {$expr: {$eq: ["$_id","$$userId"]}}},
+                        
+                        {$lookup: {
+                            from: "paymentplans",
+                            let : {planId: '$planId'},
+                            
+                            pipeline:[{$match: {$expr: {$eq: ["$_id", "$$planId"]}}}],
+                            as: "planId"
+                        }}
+                    ],
+                        as :"userId"
                     }
                 },
                 {
@@ -170,7 +189,7 @@ module.exports = {
                     if(result){
                         res.send({
                             error: false,
-                            data: result
+                            data: result,
                         })
                     }
                 })

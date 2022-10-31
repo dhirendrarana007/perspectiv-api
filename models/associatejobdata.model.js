@@ -26,4 +26,4 @@ const associatejobdatasSchema = new mongoose.Schema({
    
 });
 
-module.exports = mongoose.model("associatejobdatas", associatejobdatasSchema);;
+module.exports = mongoose.model("associatejobdatas", associatejobdatasSchema);
