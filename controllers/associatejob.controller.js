@@ -8,23 +8,6 @@ module.exports = {
         try {
             associatejobdatas.aggregate( [
                 {
-                    $lookup:{
-                        from: "jobposters",
-                        let : {userId:'$userId'},
-                        pipeline: [{$match: {$expr: {$eq: ["$_id","$$userId"]}}},
-                        
-                        {$lookup: {
-                            from: "paymentplans",
-                            let : {planId: '$planId'},
-                            
-                            pipeline:[{$match: {$expr: {$eq: ["$_id", "$$planId"]}}}],
-                            as: "planId"
-                        }}
-                    ],
-                        as :"userId"
-                    }
-                },
-                {
                     $lookup: {
                         from: "locationdatas",
                         localField: "locationId",
@@ -40,14 +23,7 @@ module.exports = {
                         as: "jobTitleId",
                     }
                 },
-                {
-                    $lookup: {
-                        from: "jobposters",
-                        localField: "industryId",
-                        foreignField: "_id",
-                        as: "industryId",
-                    }
-                },
+                
                     {
                         $project: {
                             _id: 1,
@@ -92,7 +68,7 @@ module.exports = {
                     }
                 })
         } catch (err) {
-            console.log(err);
+           // console.log(err);
             data={
                 "status": 404,
                 "errors": [
@@ -106,23 +82,6 @@ module.exports = {
         const id = req.params.id;
         try {
             associatejobdatas.aggregate( [
-                {
-                    $lookup:{
-                        from: "jobposters",
-                        let : {userId:'$userId'},
-                        pipeline: [{$match: {$expr: {$eq: ["$_id","$$userId"]}}},
-                        
-                        {$lookup: {
-                            from: "paymentplans",
-                            let : {planId: '$planId'},
-                            
-                            pipeline:[{$match: {$expr: {$eq: ["$_id", "$$planId"]}}}],
-                            as: "planId"
-                        }}
-                    ],
-                        as :"userId"
-                    }
-                },
                 {
                     $lookup: {
                         from: "locationdatas",
@@ -139,14 +98,7 @@ module.exports = {
                         as: "jobTitleId",
                     }
                 },
-                {
-                    $lookup: {
-                        from: "jobposters",
-                        localField: "industryId",
-                        foreignField: "_id",
-                        as: "industryId",
-                    }
-                },
+                
                     {
                         $project: {
                             _id: 1,
