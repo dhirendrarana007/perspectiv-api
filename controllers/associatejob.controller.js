@@ -23,12 +23,18 @@ module.exports = {
                         as: "jobTitleId",
                     }
                 },
-                
+                {
+                    $lookup: {
+                        from: "jobroleanswers",
+                        localField: "roleId",
+                        foreignField: "_id",
+                        as: "roleId",
+                    }
+                },
                     {
                         $project: {
                             _id: 1,
                             userId: 1,
-                            roleId: 1,
                             roleId:1,
                             jobTitleId:1,
                             industryId: 1,

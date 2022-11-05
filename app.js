@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8080;
 const url = process.env.MONGOOSE_URL;
 
 const associatejob_router = require("./routes/associatejob");
